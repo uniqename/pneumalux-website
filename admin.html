@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PneumaLux Admin Dashboard</title>
+<style>
+  :root {
+    --black: #0d0d1a;
+    --deep: #0f0f20;
+    --card: #13132a;
+    --gold: #c9973a;
+    --gold-light: #e8b86d;
+    --violet: #7c3aed;
+    --text: #f0f0ff;
+    --cream-dim: rgba(255,255,255,0.7);
+    --muted: #8b82c4;
+    --border: rgba(124,58,237,0.25);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: linear-gradient(135deg, var(--black) 0%, var(--deep) 100%);
+    color: var(--text);
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .header {
+    background: var(--card);
+    border-bottom: 2px solid var(--border);
+    padding: 2rem 3rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header h1 {
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 0.5rem;
+  }
+
+  .header h1 em { color: var(--gold-light); font-style: italic; }
+
+  .header p {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 3rem;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    padding: 1rem 1.5rem;
+    background: transparent;
+    border: none;
+    color: var(--cream-dim);
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -1rem;
+    font-family: inherit;
+  }
+
+  .tab-btn:hover {
+    color: var(--gold-light);
+  }
+
+  .tab-btn.active {
+    color: var(--gold-light);
+    border-bottom-color: var(--gold);
+  }
+
+  .tab-content {
+    display: none;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    border-radius: 4px;
+    margin-bottom: 2rem;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+    color: var(--cream-dim);
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  label {
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  input[type="number"],
+  input[type="text"],
+  input[type="email"],
+  select,
+  textarea {
+    padding: 0.75rem;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: inherit;
+    border-radius: 2px;
+    font-size: 0.95rem;
+  }
+
+  input[type="number"]:focus,
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--gold-light);
+    background: rgba(255,255,255,0.08);
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--gold);
+  }
+
+  .checkbox-label {
+    cursor: pointer;
+    color: var(--cream-dim);
+    font-size: 0.9rem;
+    font-weight: normal;
+  }
+
+  button {
+    padding: 1rem 2rem;
+    background: var(--gold);
+    color: var(--black);
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  button:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+  }
+
+  .summary-box {
+    background: var(--deep);
+    border: 1px solid rgba(201,151,58,0.3);
+    padding: 1.5rem;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+  }
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.95rem;
+  }
+
+  .summary-row:last-child {
+    border-bottom: none;
+  }
+
+  .summary-label { color: var(--cream-dim); }
+  .summary-value { color: var(--text); font-weight: 400; }
+
+  .amount { text-align: right; font-weight: 500; color: var(--gold-light); }
+
+  .info-box {
+    background: rgba(124,58,237,0.1);
+    border-left: 3px solid var(--violet);
+    padding: 1.5rem;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .success-box {
+    background: rgba(45,106,79,0.2);
+    border-left: 3px solid #2d6a4f;
+    padding: 1.5rem;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    color: #a8e6c9;
+  }
+
+  .payment-methods {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .payment-card {
+    background: var(--deep);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    border-radius: 4px;
+  }
+
+  .payment-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+
+  .payment-method { font-size: 0.85rem; color: var(--gold); font-weight: 500; margin-bottom: 0.5rem; }
+
+  .payment-info { font-size: 0.9rem; color: var(--cream-dim); }
+
+  .pricing-tier {
+    background: var(--deep);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+
+  .tier-name { font-size: 1.2rem; color: var(--gold); font-weight: 500; margin-bottom: 0.5rem; }
+  .tier-guests { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.75rem; }
+  .tier-price { font-size: 1.5rem; color: var(--gold-light); font-weight: 300; }
+
+  @media (max-width: 768px) {
+    .two-col { grid-template-columns: 1fr; }
+    .tabs { gap: 0.5rem; }
+    .tab-btn { padding: 0.75rem 1rem; font-size: 0.8rem; }
+    .container { padding: 1rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>PneumaLux <em>Admin</em> Dashboard</h1>
+  <p>Manage pricing, contracts, payments & bookings in one place</p>
+</div>
+
+<div class="container">
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('calculator')">📊 Price Calculator</button>
+    <button class="tab-btn" onclick="switchTab('contract')">📄 Contract</button>
+    <button class="tab-btn" onclick="switchTab('payments')">💳 Payment Methods</button>
+    <button class="tab-btn" onclick="switchTab('pricing')">💰 Pricing Tiers</button>
+  </div>
+
+  <!-- TAB 1: CALCULATOR -->
+  <div id="calculator" class="tab-content active">
+    <div class="card">
+      <h2 class="section-title">Event Pricing Calculator</h2>
+
+      <div class="two-col">
+        <!-- LEFT: INPUT -->
+        <div>
+          <h3 style="font-size: 1.1rem; color: var(--gold); margin-bottom: 1.5rem;">Event Details</h3>
+
+          <div class="form-group">
+            <label>Number of Guests</label>
+            <input type="number" id="guests" min="5" max="250" value="25" onchange="calcPrice()">
+          </div>
+
+          <div class="form-group">
+            <label>Mocktails (select which you'll prepare)</label>
+            <div class="checkbox-group">
+              <div class="checkbox-item">
+                <input type="checkbox" id="df" checked onchange="calcPrice()" data-cost="3.137">
+                <label class="checkbox-label" for="df">Dragonfruit Margarita ($3.14)</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="ss" checked onchange="calcPrice()" data-cost="3.225">
+                <label class="checkbox-label" for="ss">Sunset ($3.23)</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="bl" checked onchange="calcPrice()" data-cost="1.637">
+                <label class="checkbox-label" for="bl">Blue Lemonade ($1.64)</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="pc" checked onchange="calcPrice()" data-cost="1.720">
+                <label class="checkbox-label" for="pc">Piña Colada ($1.72)</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Decorations & Setup</label>
+            <div class="checkbox-group">
+              <div class="checkbox-item">
+                <input type="checkbox" id="g" checked onchange="calcPrice()">
+                <label class="checkbox-label" for="g">Premium Garnish (+$0.50/guest)</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="d" checked onchange="calcPrice()">
+                <label class="checkbox-label" for="d">Dry Ice (+$100 fixed)</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="c" checked onchange="calcPrice()">
+                <label class="checkbox-label" for="c">Personalized Cups (+$0.12/guest)</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="f" checked onchange="calcPrice()">
+                <label class="checkbox-label" for="f">Floral (+$4/guest)</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="m" checked onchange="calcPrice()">
+                <label class="checkbox-label" for="m">Menu Printing (+$1/guest)</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="de" onchange="calcPrice()">
+                <label class="checkbox-label" for="de">Dessert Pairing (+$7.50/guest)</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Prep Hours</label>
+            <input type="number" id="hours" min="1" max="12" step="0.5" value="3" onchange="calcPrice()">
+          </div>
+
+          <div class="form-group">
+            <label>Your Hourly Rate ($)</label>
+            <input type="number" id="rate" min="10" max="100" step="5" value="20" onchange="calcPrice()">
+          </div>
+
+          <div class="form-group">
+            <label>Travel Fee ($)</label>
+            <input type="number" id="travel" min="0" max="200" value="0" onchange="calcPrice()">
+          </div>
+        </div>
+
+        <!-- RIGHT: OUTPUT -->
+        <div>
+          <h3 style="font-size: 1.1rem; color: var(--gold); margin-bottom: 1.5rem;">Quote Summary</h3>
+
+          <div class="summary-box">
+            <div class="summary-row">
+              <span class="summary-label">Guests:</span>
+              <span class="summary-value" id="outGuests">25</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Mocktails:</span>
+              <span class="summary-value amount" id="outMock">$60.75</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Setup & Decor:</span>
+              <span class="summary-value amount" id="outSetup">$32.50</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Your Labor:</span>
+              <span class="summary-value amount" id="outLabor">$60.00</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Operations:</span>
+              <span class="summary-value amount" id="outOps">$65.40</span>
+            </div>
+            <div class="summary-row" style="margin-top: 1rem; padding-top: 1rem; border-top: 2px solid var(--border);">
+              <span class="summary-label">Total Cost:</span>
+              <span class="summary-value amount" style="font-size: 1.2rem;" id="outTotal">$218.65</span>
+            </div>
+            <div class="summary-row" style="margin-top: 0.5rem;">
+              <span class="summary-label">Suggested Price (30% margin):</span>
+              <span class="summary-value amount" style="font-size: 1.2rem; color: var(--gold-light);" id="outPrice">$312.36</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Deposit (50%):</span>
+              <span class="summary-value amount" id="outDeposit">$156.18</span>
+            </div>
+          </div>
+
+          <button onclick="copyQuote()">📋 Copy Quote</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: CONTRACT -->
+  <div id="contract" class="tab-content">
+    <div class="card">
+      <h2 class="section-title">Service Agreement Contract</h2>
+
+      <div class="info-box">
+        💡 Fill in client details below, then print or save as PDF. Contract template can be customized for each booking.
+      </div>
+
+      <div class="two-col">
+        <div class="form-group">
+          <label>Client Name</label>
+          <input type="text" id="clientName" placeholder="Jane Smith">
+        </div>
+        <div class="form-group">
+          <label>Client Phone</label>
+          <input type="text" id="clientPhone" placeholder="614-123-4567">
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="form-group">
+          <label>Event Date</label>
+          <input type="text" id="eventDate" placeholder="June 15, 2026">
+        </div>
+        <div class="form-group">
+          <label>Number of Guests</label>
+          <input type="text" id="eventGuests" placeholder="25">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Event Location</label>
+        <input type="text" id="eventLocation" placeholder="Downtown Columbus Venue">
+      </div>
+
+      <div class="two-col">
+        <div class="form-group">
+          <label>Service Tier</label>
+          <select id="tier">
+            <option>Signature ($250–$300)</option>
+            <option>Luxe ($450–$650)</option>
+            <option>Prestige ($750–$1,200)</option>
+            <option>Elite ($1,500–$2,500)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Total Service Fee</label>
+          <input type="number" id="totalFee" placeholder="500" step="10">
+        </div>
+      </div>
+
+      <div class="info-box">
+        <strong>Contract includes:</strong> Deposit requirement (50%), payment schedule (50% balance due 14 days before), cancellation policy with fees, payment methods (Zelle/CashApp/Card/Check), and signature block.
+      </div>
+
+      <button onclick="window.open('contract.html', '_blank')">🖨️ Open Full Contract Template</button>
+      <p style="font-size: 0.85rem; color: var(--muted); margin-top: 1rem;">Opens in new window. Fill in details above, then print/save as PDF to send to client.</p>
+    </div>
+  </div>
+
+  <!-- TAB 3: PAYMENTS -->
+  <div id="payments" class="tab-content">
+    <div class="card">
+      <h2 class="section-title">Payment Methods & Instructions</h2>
+
+      <div class="info-box">
+        Always collect 50% deposit before confirming booking. Balance (50%) due 14 days before event.
+      </div>
+
+      <div class="payment-methods">
+        <div class="payment-card">
+          <div class="payment-icon">💸</div>
+          <div class="payment-method">Zelle</div>
+          <div class="payment-info"><strong>consulting.enam@gmail.com</strong><br>Fast (1–2 hours), preferred for quick transfers</div>
+        </div>
+
+        <div class="payment-card">
+          <div class="payment-icon">💵</div>
+          <div class="payment-method">CashApp</div>
+          <div class="payment-info"><strong>$pneumaluxsips</strong><br>Easy transfers, good for casual clients</div>
+        </div>
+
+        <div class="payment-card">
+          <div class="payment-icon">💳</div>
+          <div class="payment-method">Card (Stripe)</div>
+          <div class="payment-info"><strong>Invoice via email</strong><br>Professional invoices, ~2% fee, receipt for client</div>
+        </div>
+
+        <div class="payment-card">
+          <div class="payment-icon">✉️</div>
+          <div class="payment-method">Check</div>
+          <div class="payment-info"><strong>Payable to PneumaLux Sips Co.</strong><br>Allow 5–7 business days to clear</div>
+        </div>
+      </div>
+
+      <h3 style="font-size: 1.1rem; color: var(--gold); margin-bottom: 1rem; margin-top: 2rem;">Sample Deposit Invoice</h3>
+
+      <div class="info-box">
+        <strong>PNEUMALUX SIPS CO. — DEPOSIT INVOICE</strong><br><br>
+        <strong>Client:</strong> [Name]<br>
+        <strong>Event Date:</strong> [Date]<br>
+        <strong>Service Package:</strong> [Tier]<br>
+        <strong>Total Service Fee:</strong> $[Amount]<br><br>
+        <strong>DEPOSIT DUE (50%):</strong> $[Amount]<br>
+        <strong>Due by:</strong> [Date - 3 days from now]<br><br>
+        <strong>Payment Methods:</strong><br>
+        • Zelle: consulting.enam@gmail.com<br>
+        • CashApp: $pneumaluxsips<br>
+        • Card: [Stripe invoice link]<br>
+        • Check: PneumaLux Sips Co., [Your address]<br><br>
+        Once deposit is received, your event is officially booked!
+      </div>
+
+      <button onclick="copyText('PNEUMALUX SIPS CO. — DEPOSIT INVOICE\n\nClient: [Name]\nEvent Date: [Date]\nService Package: [Tier]\nTotal Service Fee: $[Amount]\n\nDEPOSIT DUE (50%): $[Amount]\nDue by: [Date]\n\nPayment Methods:\n• Zelle: consulting.enam@gmail.com\n• CashApp: $pneumaluxsips\n• Card: [Stripe link]\n• Check: PneumaLux Sips Co.\n\nOnce deposit is received, your event is officially booked!')">📋 Copy Invoice Template</button>
+    </div>
+  </div>
+
+  <!-- TAB 4: PRICING TIERS -->
+  <div id="pricing" class="tab-content">
+    <div class="card">
+      <h2 class="section-title">Pricing Tiers Overview</h2>
+
+      <div class="pricing-tier">
+        <div class="tier-name">Signature Experience</div>
+        <div class="tier-guests">5–25 guests</div>
+        <div class="tier-price">$250–$300</div>
+        <p style="font-size: 0.9rem; color: var(--cream-dim); margin-top: 0.75rem;">Full bar setup, signature menu, professional service, 2–3 hours included</p>
+      </div>
+
+      <div class="pricing-tier">
+        <div class="tier-name">Luxe Experience</div>
+        <div class="tier-guests">25–40 guests</div>
+        <div class="tier-price">$450–$650</div>
+        <p style="font-size: 0.9rem; color: var(--cream-dim); margin-top: 0.75rem;">Custom menu design, enhanced garnish station, premium presentation, 3–4 hours included</p>
+      </div>
+
+      <div class="pricing-tier">
+        <div class="tier-name">Prestige Experience</div>
+        <div class="tier-guests">51–100 guests</div>
+        <div class="tier-price">$750–$1,200</div>
+        <p style="font-size: 0.9rem; color: var(--cream-dim); margin-top: 0.75rem;">Fully customized menu, premium garnish station, multiple bartenders, 4–5 hours included</p>
+      </div>
+
+      <div class="pricing-tier">
+        <div class="tier-name">Elite Experience</div>
+        <div class="tier-guests">101–200 guests</div>
+        <div class="tier-price">$1,500–$2,500</div>
+        <p style="font-size: 0.9rem; color: var(--cream-dim); margin-top: 0.75rem;">Full custom design & menu, premium bar station, dedicated bartender team, 5+ hours included</p>
+      </div>
+
+      <div class="pricing-tier" style="border-color: rgba(201,151,58,0.4); background: rgba(201,151,58,0.08);">
+        <div class="tier-name">Custom Corporate & Wedding</div>
+        <div class="tier-guests">200+ guests</div>
+        <div class="tier-price">Custom Quote</div>
+        <p style="font-size: 0.9rem; color: var(--cream-dim); margin-top: 0.75rem;">Unlimited personalization, full team & logistics, travel included, extended hours available. Starting at $2,500+</p>
+      </div>
+
+      <h3 style="font-size: 1.1rem; color: var(--gold); margin-bottom: 1rem; margin-top: 2rem;">Premium Add-Ons</h3>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+        <div style="background: var(--deep); padding: 1rem; border-radius: 4px;">
+          <strong style="color: var(--gold);">Premium Garnish Station</strong>
+          <p style="font-size: 0.85rem; color: var(--cream-dim); margin-top: 0.5rem;">Specialty garnishes & fresh botanicals</p>
+        </div>
+        <div style="background: var(--deep); padding: 1rem; border-radius: 4px;">
+          <strong style="color: var(--gold);">Custom Menu</strong>
+          <p style="font-size: 0.85rem; color: var(--cream-dim); margin-top: 0.5rem;">Drinks designed around theme & preferences</p>
+        </div>
+        <div style="background: var(--deep); padding: 1rem; border-radius: 4px;">
+          <strong style="color: var(--gold);">Personalized Cups & Signage</strong>
+          <p style="font-size: 0.85rem; color: var(--cream-dim); margin-top: 0.5rem;">Custom branding for cohesive experience</p>
+        </div>
+        <div style="background: var(--deep); padding: 1rem; border-radius: 4px;">
+          <strong style="color: var(--gold);">Additional Hours</strong>
+          <p style="font-size: 0.85rem; color: var(--cream-dim); margin-top: 0.5rem;">Extend service by the hour</p>
+        </div>
+        <div style="background: var(--deep); padding: 1rem; border-radius: 4px;">
+          <strong style="color: var(--gold);">Travel & Time Fee</strong>
+          <p style="font-size: 0.85rem; color: var(--cream-dim); margin-top: 0.5rem;">For locations outside 50-mile radius</p>
+        </div>
+        <div style="background: var(--deep); padding: 1rem; border-radius: 4px;">
+          <strong style="color: var(--gold);">Dessert Pairing Packages</strong>
+          <p style="font-size: 0.85rem; color: var(--cream-dim); margin-top: 0.5rem;">$5–10 per guest or custom packages</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById(tab).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function calcPrice() {
+    const guests = parseInt(document.getElementById('guests').value) || 25;
+
+    // Mocktail costs
+    let totalMocktail = 0;
+    const mocktails = [
+      {id: 'df', cost: 3.137},
+      {id: 'ss', cost: 3.225},
+      {id: 'bl', cost: 1.637},
+      {id: 'pc', cost: 1.720}
+    ];
+
+    let selectedCount = 0;
+    mocktails.forEach(m => {
+      if (document.getElementById(m.id).checked) {
+        totalMocktail += m.cost;
+        selectedCount++;
+      }
+    });
+
+    const avgMocktail = selectedCount > 0 ? totalMocktail / selectedCount : 2.43;
+    const mocktailTotal = avgMocktail * guests;
+
+    // Setup & decorations
+    let setupTotal = 0;
+    if (document.getElementById('g').checked) setupTotal += 0.50 * guests;
+    if (document.getElementById('d').checked) setupTotal += 100;
+    if (document.getElementById('c').checked) setupTotal += 0.12 * guests;
+    if (document.getElementById('f').checked) setupTotal += 4 * guests;
+    if (document.getElementById('m').checked) setupTotal += 1 * guests;
+    if (document.getElementById('de').checked) setupTotal += 7.50 * guests;
+
+    // Labor
+    const hours = parseFloat(document.getElementById('hours').value) || 3;
+    const rate = parseFloat(document.getElementById('rate').value) || 20;
+    const laborTotal = hours * rate;
+
+    // Operations
+    const travel = parseFloat(document.getElementById('travel').value) || 0;
+    const opsTotal = 65.40 + travel;
+
+    // Total
+    const totalCost = mocktailTotal + setupTotal + laborTotal + opsTotal;
+    const suggestedPrice = totalCost / 0.7; // 30% margin
+    const deposit = suggestedPrice / 2;
+
+    // Update display
+    document.getElementById('outGuests').textContent = guests;
+    document.getElementById('outMock').textContent = `$${mocktailTotal.toFixed(2)}`;
+    document.getElementById('outSetup').textContent = `$${setupTotal.toFixed(2)}`;
+    document.getElementById('outLabor').textContent = `$${laborTotal.toFixed(2)}`;
+    document.getElementById('outOps').textContent = `$${opsTotal.toFixed(2)}`;
+    document.getElementById('outTotal').textContent = `$${totalCost.toFixed(2)}`;
+    document.getElementById('outPrice').textContent = `$${suggestedPrice.toFixed(2)}`;
+    document.getElementById('outDeposit').textContent = `$${deposit.toFixed(2)}`;
+  }
+
+  function copyQuote() {
+    const text = `PNEUMALUX QUOTE\nGuests: ${document.getElementById('outGuests').textContent}\nMocktails: ${document.getElementById('outMock').textContent}\nSetup: ${document.getElementById('outSetup').textContent}\nLabor: ${document.getElementById('outLabor').textContent}\nOps: ${document.getElementById('outOps').textContent}\nTotal Cost: ${document.getElementById('outTotal').textContent}\nSuggested Price: ${document.getElementById('outPrice').textContent}\nDeposit (50%): ${document.getElementById('outDeposit').textContent}`;
+    navigator.clipboard.writeText(text).then(() => alert('Quote copied!'));
+  }
+
+  function copyText(text) {
+    navigator.clipboard.writeText(text).then(() => alert('Copied to clipboard!'));
+  }
+
+  calcPrice();
+</script>
+
+</body>
+</html>
