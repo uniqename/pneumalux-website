@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PneumaLux Pricing Calculator</title>
+<style>
+  :root {
+    --black: #0d0d1a;
+    --deep: #0f0f20;
+    --card: #13132a;
+    --gold: #c9973a;
+    --gold-light: #e8b86d;
+    --violet: #7c3aed;
+    --text: #f0f0ff;
+    --cream-dim: rgba(255,255,255,0.7);
+    --muted: #8b82c4;
+    --border: rgba(124,58,237,0.25);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: linear-gradient(135deg, var(--black) 0%, var(--deep) 100%);
+    color: var(--text);
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    padding: 2rem;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2rem;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin-bottom: 0.5rem;
+    color: var(--cream-dim);
+  }
+
+  h1 em { color: var(--gold-light); font-style: italic; }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 1rem;
+  }
+
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    border-radius: 4px;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+    color: var(--cream-dim);
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+    border-bottom: 1px solid rgba(124,58,237,0.15);
+    padding-bottom: 1rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  label {
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  input[type="number"],
+  input[type="range"],
+  select {
+    padding: 0.75rem;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: inherit;
+    border-radius: 2px;
+    font-size: 0.95rem;
+  }
+
+  input[type="range"] {
+    padding: 0;
+    height: 6px;
+    cursor: pointer;
+  }
+
+  input[type="number"]:focus,
+  input[type="range"]:focus,
+  select:focus {
+    outline: none;
+    border-color: var(--gold-light);
+    background: rgba(255,255,255,0.08);
+  }
+
+  .range-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .range-value {
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--gold-light);
+    min-width: 80px;
+  }
+
+  .checkbox-group {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+
+  .checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.75rem;
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+
+  .checkbox-item:hover {
+    background: rgba(124,58,237,0.1);
+  }
+
+  input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--gold);
+  }
+
+  .checkbox-label {
+    cursor: pointer;
+    color: var(--cream-dim);
+    font-size: 0.9rem;
+    font-weight: normal;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
+  .summary-box {
+    background: var(--deep);
+    border: 1px solid rgba(201,151,58,0.3);
+    padding: 2rem;
+    border-radius: 4px;
+    margin-bottom: 2rem;
+  }
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.95rem;
+  }
+
+  .summary-row:last-child {
+    border-bottom: none;
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: var(--gold-light);
+    margin-top: 1rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--border);
+  }
+
+  .summary-label { color: var(--cream-dim); }
+  .summary-value { color: var(--text); font-weight: 400; }
+
+  .breakdown-table {
+    width: 100%;
+    font-size: 0.85rem;
+    margin-top: 1.5rem;
+  }
+
+  .breakdown-table th,
+  .breakdown-table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .breakdown-table th {
+    background: rgba(124,58,237,0.1);
+    color: var(--gold);
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+  }
+
+  .breakdown-table td {
+    color: var(--cream-dim);
+  }
+
+  .breakdown-table tr:hover td {
+    background: rgba(124,58,237,0.05);
+  }
+
+  .amount { text-align: right; color: var(--text); font-weight: 400; }
+
+  .button-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  button {
+    flex: 1;
+    padding: 1rem;
+    border: none;
+    border-radius: 2px;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--black);
+  }
+
+  .btn-primary:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    background: var(--violet);
+    color: var(--text);
+    border: 1px solid var(--violet);
+  }
+
+  .btn-secondary:hover {
+    background: transparent;
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .margin-indicator {
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--gold-light);
+  }
+
+  .margin-percent {
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  .warning {
+    background: rgba(249,115,22,0.1);
+    border-left: 3px solid #f97316;
+    padding: 1rem;
+    border-radius: 2px;
+    color: var(--cream-dim);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .main-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 1.8rem; }
+    .checkbox-group { flex-direction: column; gap: 1rem; }
+    .button-group { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>PneumaLux <em>Pricing</em> Calculator</h1>
+    <p class="subtitle">Real-time quote generation based on your event details</p>
+  </header>
+
+  <div class="main-grid">
+    <!-- INPUT PANEL -->
+    <div class="card">
+      <h2 class="section-title">Event Details</h2>
+
+      <!-- Guest Count -->
+      <div class="form-group">
+        <label for="guestCount">Number of Guests</label>
+        <div class="range-display">
+          <input type="range" id="guestCount" min="5" max="250" value="25">
+          <span class="range-value" id="guestDisplay">25</span>
+        </div>
+        <input type="number" id="guestInput" min="5" max="250" value="25" style="margin-top: 0.5rem;">
+      </div>
+
+      <!-- Mocktail Selection -->
+      <div class="form-group">
+        <label>Mocktail Options (select at least 1)</label>
+        <div class="checkbox-group">
+          <div class="checkbox-item">
+            <input type="checkbox" id="dragonfruit" checked data-cost="3.137">
+            <label class="checkbox-label" for="dragonfruit">Dragonfruit Margarita ($3.14)</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="sunset" checked data-cost="3.225">
+            <label class="checkbox-label" for="sunset">Sunset ($3.23)</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="bluelemonade" checked data-cost="1.637">
+            <label class="checkbox-label" for="bluelemonade">Blue Lemonade ($1.64)</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="pinacolada" checked data-cost="1.720">
+            <label class="checkbox-label" for="pinacolada">Piña Colada ($1.72)</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add-ons -->
+      <div class="form-group">
+        <label>Premium Add-Ons</label>
+        <div class="checkbox-group">
+          <div class="checkbox-item">
+            <input type="checkbox" id="garnish" data-cost="garni">
+            <label class="checkbox-label" for="garnish">Premium Garnish (+$0.50/guest)</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="dryice">
+            <label class="checkbox-label" for="dryice">Dry Ice Effect (+$100 fixed)</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="personalized">
+            <label class="checkbox-label" for="personalized">Personalized Cups (+$0.12/guest)</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="floral">
+            <label class="checkbox-label" for="floral">Floral Arrangement (+$4/guest)</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="dessert">
+            <label class="checkbox-label" for="dessert">Dessert Pairing ($7.50/guest)</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ingredient Price Adjustment -->
+      <div class="form-group">
+        <label for="priceAdjust">Cost Adjustment Factor</label>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+          <input type="number" id="priceAdjust" min="0.8" max="1.5" step="0.05" value="1" style="flex: 1;">
+          <span style="color: var(--muted); font-size: 0.85rem;">×1.0 = baseline</span>
+        </div>
+        <p style="font-size: 0.8rem; color: var(--muted); margin-top: 0.5rem;">Use 1.1 for 10% price increase, 0.9 for 10% decrease</p>
+      </div>
+
+      <!-- Service Hours -->
+      <div class="form-group">
+        <label for="hours">Service Hours</label>
+        <input type="number" id="hours" min="1" max="12" step="0.5" value="3">
+      </div>
+
+      <!-- Hourly Rate -->
+      <div class="form-group">
+        <label for="hourlyRate">Hourly Service Rate ($/hr)</label>
+        <input type="number" id="hourlyRate" min="10" max="100" step="5" value="20">
+      </div>
+
+      <div class="button-group">
+        <button class="btn-primary" onclick="calculateQuote()">Calculate Quote</button>
+        <button class="btn-secondary" onclick="resetForm()">Reset</button>
+      </div>
+    </div>
+
+    <!-- OUTPUT PANEL -->
+    <div class="card">
+      <h2 class="section-title">Pricing Summary</h2>
+
+      <div class="summary-box">
+        <div class="summary-row">
+          <span class="summary-label">Guest Count</span>
+          <span class="summary-value" id="outGuests">25</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Cost per Guest</span>
+          <span class="summary-value amount" id="outPerGuest">$2.43</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Add-ons & Setup</span>
+          <span class="summary-value amount" id="outAddons">$0.00</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Labor & Operations</span>
+          <span class="summary-value amount" id="outLabor">$127.90</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Total Cost</span>
+          <span class="summary-value amount" id="outTotal">$212.63</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Suggested Price (30% margin)</span>
+          <span class="summary-value amount" id="outPrice">$303.76</span>
+        </div>
+        <div class="summary-row">
+          <div>
+            <span class="summary-label">Profit Margin</span>
+            <br><span class="margin-percent" id="outMarginPct">29.85%</span>
+          </div>
+          <span class="margin-indicator" id="outMargin">$91.13</span>
+        </div>
+      </div>
+
+      <div id="warningBox" style="display:none;" class="warning">
+        ⚠️ Margin below 20%. Consider adjusting pricing or reducing costs.
+      </div>
+
+      <h3 style="font-size: 1.1rem; color: var(--gold); margin-top: 2rem; margin-bottom: 1rem;">Cost Breakdown</h3>
+      <table class="breakdown-table">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th class="amount">Amount</th>
+          </tr>
+        </thead>
+        <tbody id="breakdown">
+          <tr>
+            <td>Mocktails (avg cost)</td>
+            <td class="amount">$60.75</td>
+          </tr>
+          <tr>
+            <td>Labor (setup, service, admin)</td>
+            <td class="amount">$127.90</td>
+          </tr>
+          <tr>
+            <td>Operations (cups, floral, gas)</td>
+            <td class="amount">$23.98</td>
+          </tr>
+          <tr style="font-weight: 500; border-top: 2px solid var(--border);">
+            <td>Total</td>
+            <td class="amount">$212.63</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="button-group" style="margin-top: 2rem;">
+        <button class="btn-secondary" onclick="exportQuote()">📋 Copy Quote</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const guestRange = document.getElementById('guestCount');
+  const guestInput = document.getElementById('guestInput');
+  const guestDisplay = document.getElementById('guestDisplay');
+
+  // Sync guest input and range
+  guestRange.addEventListener('input', (e) => {
+    guestInput.value = e.target.value;
+    guestDisplay.textContent = e.target.value;
+    calculateQuote();
+  });
+
+  guestInput.addEventListener('change', (e) => {
+    guestRange.value = e.target.value;
+    guestDisplay.textContent = e.target.value;
+    calculateQuote();
+  });
+
+  // Auto-calculate on any change
+  document.querySelectorAll('input[type="checkbox"], input[type="number"], select').forEach(el => {
+    el.addEventListener('change', calculateQuote);
+    el.addEventListener('input', calculateQuote);
+  });
+
+  function calculateQuote() {
+    const guests = parseInt(guestInput.value) || 25;
+    const selectedMocktails = document.querySelectorAll('input[type="checkbox"][data-cost]:checked');
+    const priceAdjust = parseFloat(document.getElementById('priceAdjust').value) || 1;
+    const hours = parseFloat(document.getElementById('hours').value) || 3;
+    const hourlyRate = parseFloat(document.getElementById('hourlyRate').value) || 20;
+
+    // Calculate average mocktail cost
+    let totalMocktailCost = 0;
+    selectedMocktails.forEach(el => {
+      totalMocktailCost += parseFloat(el.getAttribute('data-cost'));
+    });
+    const avgMocktailCost = (totalMocktailCost / Math.max(selectedMocktails.length, 1)) * priceAdjust;
+
+    // Mocktail cost
+    const mocktailTotal = avgMocktailCost * guests;
+
+    // Add-ons
+    let addonsTotal = 0;
+    if (document.getElementById('garnish').checked) addonsTotal += 0.50 * guests;
+    if (document.getElementById('dryice').checked) addonsTotal += 100;
+    if (document.getElementById('personalized').checked) addonsTotal += 0.12 * guests;
+    if (document.getElementById('floral').checked) addonsTotal += 4 * guests;
+    if (document.getElementById('dessert').checked) addonsTotal += 7.50 * guests;
+
+    // Labor & Operations
+    const prepSetup = (guests / 25) * 62.50; // scales with group size
+    const shopping = 40;
+    const gas = 5.40;
+    const admin = 20;
+    const laborTotal = prepSetup + shopping + gas + admin;
+
+    // Operations (fixed + variable)
+    const disposableCups = guests * 0.12;
+    const menuPrinting = 1;
+    const operationsTotal = disposableCups + menuPrinting;
+
+    // Total cost
+    const totalCost = mocktailTotal + addonsTotal + laborTotal + operationsTotal;
+
+    // Suggested price (30% margin target)
+    const suggestedPrice = totalCost / 0.7; // 30% margin = price * 0.7 = cost
+    const margin = suggestedPrice - totalCost;
+    const marginPercent = (margin / suggestedPrice * 100).toFixed(2);
+
+    // Update output
+    document.getElementById('outGuests').textContent = guests;
+    document.getElementById('outPerGuest').textContent = `$${avgMocktailCost.toFixed(2)}`;
+    document.getElementById('outAddons').textContent = `$${addonsTotal.toFixed(2)}`;
+    document.getElementById('outLabor').textContent = `$${laborTotal.toFixed(2)}`;
+    document.getElementById('outTotal').textContent = `$${totalCost.toFixed(2)}`;
+    document.getElementById('outPrice').textContent = `$${suggestedPrice.toFixed(2)}`;
+    document.getElementById('outMargin').textContent = `$${margin.toFixed(2)}`;
+    document.getElementById('outMarginPct').textContent = `${marginPercent}%`;
+
+    // Warning if margin < 20%
+    const warning = document.getElementById('warningBox');
+    if (marginPercent < 20) {
+      warning.style.display = 'block';
+    } else {
+      warning.style.display = 'none';
+    }
+
+    // Update breakdown table
+    updateBreakdown(mocktailTotal, laborTotal, operationsTotal + addonsTotal, totalCost);
+  }
+
+  function updateBreakdown(mocktails, labor, operations, total) {
+    const breakdown = document.getElementById('breakdown');
+    breakdown.innerHTML = `
+      <tr>
+        <td>Mocktails (avg cost)</td>
+        <td class="amount">$${mocktails.toFixed(2)}</td>
+      </tr>
+      <tr>
+        <td>Labor (setup, service, admin)</td>
+        <td class="amount">$${labor.toFixed(2)}</td>
+      </tr>
+      <tr>
+        <td>Operations & Add-ons (cups, floral, etc.)</td>
+        <td class="amount">$${operations.toFixed(2)}</td>
+      </tr>
+      <tr style="font-weight: 500; border-top: 2px solid var(--border);">
+        <td>Total</td>
+        <td class="amount">$${total.toFixed(2)}</td>
+      </tr>
+    `;
+  }
+
+  function exportQuote() {
+    const guests = document.getElementById('outGuests').textContent;
+    const perGuest = document.getElementById('outPerGuest').textContent;
+    const total = document.getElementById('outTotal').textContent;
+    const price = document.getElementById('outPrice').textContent;
+    const margin = document.getElementById('outMarginPct').textContent;
+
+    const quote = `PneumaLux Quote Summary
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Guests: ${guests}
+Cost per Guest: ${perGuest}
+Total Cost: ${total}
+Suggested Price: ${price}
+Profit Margin: ${margin}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
+
+    navigator.clipboard.writeText(quote).then(() => {
+      alert('Quote copied to clipboard!');
+    });
+  }
+
+  function resetForm() {
+    document.getElementById('guestCount').value = 25;
+    document.getElementById('guestInput').value = 25;
+    document.getElementById('guestDisplay').textContent = 25;
+    document.getElementById('priceAdjust').value = 1;
+    document.getElementById('hours').value = 3;
+    document.getElementById('hourlyRate').value = 20;
+    document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      cb.checked = ['dragonfruit', 'sunset', 'bluelemonade', 'pinacolada'].includes(cb.id);
+    });
+    calculateQuote();
+  }
+
+  // Initial calculation
+  calculateQuote();
+</script>
+
+</body>
+</html>
