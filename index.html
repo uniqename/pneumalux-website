@@ -6,21 +6,21 @@
 <title>PneumaLux Sips Co. — Signature Mocktail Experiences</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --black: #0a0a0a;
-    --deep: #111111;
-    --card: #161616;
+    --black: #0d0d1a;
+    --deep: #0f0f20;
+    --card: #13132a;
     --gold: #c9973a;
     --gold-light: #e8b86d;
     --gold-dim: #7a5c22;
-    --cream: #f5ede0;
-    --cream-dim: #c8b89a;
-    --plum: #2a1528;
-    --text: #e8e0d4;
-    --muted: #7a7060;
-    --border: rgba(201,151,58,0.18);
+    --cream: #ffffff;
+    --cream-dim: rgba(255,255,255,0.7);
+    --plum: #1e0a3c;
+    --text: #f0f0ff;
+    --muted: #8b82c4;
+    --border: rgba(124,58,237,0.25);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -40,7 +40,7 @@
   /* Custom cursor */
   .cursor {
     width: 10px; height: 10px;
-    background: var(--gold);
+    background: #7c3aed;
     border-radius: 50%;
     position: fixed; top: 0; left: 0;
     pointer-events: none;
@@ -50,7 +50,7 @@
   }
   .cursor-ring {
     width: 36px; height: 36px;
-    border: 1px solid rgba(201,151,58,0.5);
+    border: 1px solid rgba(124,58,237,0.5);
     border-radius: 50%;
     position: fixed; top: 0; left: 0;
     pointer-events: none;
@@ -66,7 +66,7 @@
     z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
     padding: 1.5rem 3rem;
-    background: rgba(10,10,10,0.7);
+    background: rgba(13,13,26,0.75);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
     transition: padding 0.3s ease;
@@ -115,17 +115,17 @@
   .hero-bg {
     position: absolute; inset: 0;
     background:
-      radial-gradient(ellipse 60% 70% at 80% 40%, rgba(42,21,40,0.6) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 50% at 20% 80%, rgba(201,151,58,0.08) 0%, transparent 60%),
-      linear-gradient(180deg, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.85) 100%);
+      radial-gradient(ellipse 60% 70% at 80% 40%, rgba(124,58,237,0.5) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 50% at 20% 80%, rgba(249,115,22,0.15) 0%, transparent 60%),
+      linear-gradient(180deg, rgba(13,13,26,0.2) 0%, rgba(13,13,26,0.85) 100%);
     z-index: 1;
   }
   .hero-img-placeholder {
     position: absolute; inset: 0;
     background:
-      radial-gradient(ellipse 80% 80% at 75% 30%, rgba(90,20,80,0.25) 0%, transparent 60%),
-      radial-gradient(ellipse 50% 60% at 70% 50%, rgba(201,151,58,0.06) 0%, transparent 50%),
-      linear-gradient(135deg, #0f0810 0%, #1a0d18 30%, #0d0d0d 70%);
+      radial-gradient(ellipse 80% 80% at 75% 30%, rgba(124,58,237,0.35) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 70% 50%, rgba(249,115,22,0.1) 0%, transparent 50%),
+      linear-gradient(135deg, #0d0d1a 0%, #1a0a30 30%, #0f0f20 70%);
   }
   /* Animated orbs */
   .orb {
@@ -135,9 +135,9 @@
     animation: float 8s ease-in-out infinite;
     pointer-events: none;
   }
-  .orb-1 { width: 500px; height: 500px; background: rgba(90,20,80,0.2); top: -100px; right: -100px; animation-delay: 0s; }
-  .orb-2 { width: 300px; height: 300px; background: rgba(201,151,58,0.1); bottom: 100px; right: 200px; animation-delay: 3s; }
-  .orb-3 { width: 200px; height: 200px; background: rgba(150,30,120,0.15); top: 200px; left: 100px; animation-delay: 5s; }
+  .orb-1 { width: 500px; height: 500px; background: rgba(124,58,237,0.35); top: -100px; right: -100px; animation-delay: 0s; }
+  .orb-2 { width: 300px; height: 300px; background: rgba(249,115,22,0.2); bottom: 100px; right: 200px; animation-delay: 3s; }
+  .orb-3 { width: 200px; height: 200px; background: rgba(124,58,237,0.25); top: 200px; left: 100px; animation-delay: 5s; }
   @keyframes float {
     0%, 100% { transform: translateY(0) scale(1); }
     50% { transform: translateY(-30px) scale(1.05); }
@@ -211,7 +211,7 @@
     border-bottom: 1px solid rgba(200,184,154,0.3);
     padding-bottom: 2px;
   }
-  .btn-secondary:hover { color: var(--gold-light); border-color: var(--gold); }
+  .btn-secondary:hover { color: #a78bfa; border-color: #7c3aed; }
 
   .hero-stats {
     position: absolute; right: 3rem; bottom: 5rem; z-index: 2;
@@ -292,22 +292,13 @@
   .about-card-main {
     inset: 0;
     display: flex; align-items: center; justify-content: center;
-    background: linear-gradient(135deg, #1a0d18 0%, #0d0d0d 100%);
-  }
-  .drink-icon {
-    font-size: 6rem;
-    filter: drop-shadow(0 0 40px rgba(201,151,58,0.4));
-    animation: glow 3s ease-in-out infinite;
-  }
-  @keyframes glow {
-    0%, 100% { filter: drop-shadow(0 0 30px rgba(201,151,58,0.3)); }
-    50% { filter: drop-shadow(0 0 60px rgba(201,151,58,0.6)); }
+    background: linear-gradient(135deg, #0d0d1a 0%, #1a0a30 100%);
   }
   .about-badge {
     position: absolute;
     bottom: -1px; right: -1px;
-    background: var(--gold);
-    color: var(--black);
+    background: linear-gradient(135deg, #c9973a, #f97316);
+    color: #ffffff;
     padding: 1rem 1.5rem;
     font-size: 0.7rem;
     letter-spacing: 0.1em;
@@ -386,8 +377,8 @@
     font-size: 0.65rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--gold);
-    border: 1px solid var(--gold-dim);
+    color: #a78bfa;
+    border: 1px solid rgba(124,58,237,0.5);
     padding: 0.3rem 0.75rem;
   }
 
@@ -398,17 +389,17 @@
     grid-template-columns: 2fr 1fr 1fr;
     grid-template-rows: 250px 250px;
     gap: 1px;
-    background: rgba(201,151,58,0.1);
+    background: rgba(124,58,237,0.12);
     margin-top: 3rem;
     max-width: 1100px;
   }
   .exp-cell {
-    background: rgba(20,10,20,0.8);
+    background: rgba(13,13,26,0.85);
     display: flex; align-items: center; justify-content: center;
     position: relative; overflow: hidden;
     transition: background 0.3s;
   }
-  .exp-cell:hover { background: rgba(30,15,30,0.9); }
+  .exp-cell:hover { background: rgba(20,10,40,0.95); }
   .exp-cell-1 { grid-row: span 2; }
   .exp-inner {
     text-align: center;
@@ -426,7 +417,7 @@
   .exp-cell-1 .exp-label { font-size: 1.5rem; }
   .exp-shimmer {
     position: absolute; inset: 0;
-    background: linear-gradient(135deg, transparent 40%, rgba(201,151,58,0.05) 50%, transparent 60%);
+    background: linear-gradient(135deg, transparent 40%, rgba(124,58,237,0.08) 50%, transparent 60%);
     animation: shimmer 4s ease-in-out infinite;
   }
   @keyframes shimmer {
@@ -472,8 +463,8 @@
   .booking-bg {
     position: absolute; inset: 0;
     background:
-      radial-gradient(ellipse 60% 80% at 50% 50%, rgba(42,21,40,0.6) 0%, transparent 70%),
-      radial-gradient(ellipse 30% 40% at 80% 20%, rgba(201,151,58,0.05) 0%, transparent 50%);
+      radial-gradient(ellipse 60% 80% at 50% 50%, rgba(124,58,237,0.4) 0%, transparent 70%),
+      radial-gradient(ellipse 30% 40% at 80% 20%, rgba(249,115,22,0.1) 0%, transparent 50%);
   }
   .booking-inner {
     position: relative; z-index: 1;
@@ -814,7 +805,7 @@
   <video autoplay muted playsinline style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
     <source src="videos/hero-video.mp4" type="video/mp4">
   </video>
-  <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 60px;">
+  <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(13,13,26,0.5); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 60px;">
     <div style="text-align: center; z-index: 10;">
       <a href="#booking" class="btn-primary" style="display: inline-block; margin-top: 2rem;">Book Your Experience</a>
     </div>
@@ -1050,7 +1041,7 @@
     const btn = document.querySelector('.form-submit');
     if (!name.trim()) {
       btn.textContent = 'Please fill in your name first';
-      btn.style.background = '#7a5c22';
+      btn.style.background = '#7c3aed';
       setTimeout(() => {
         btn.textContent = 'Send My Inquiry →';
         btn.style.background = '';
