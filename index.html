@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PneumaLux Sips Co. — Signature Mocktail Experiences</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --deep: #111111;
+    --card: #161616;
+    --gold: #c9973a;
+    --gold-light: #e8b86d;
+    --gold-dim: #7a5c22;
+    --cream: #f5ede0;
+    --cream-dim: #c8b89a;
+    --plum: #2a1528;
+    --text: #e8e0d4;
+    --muted: #7a7060;
+    --border: rgba(201,151,58,0.18);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease, width 0.2s ease, height 0.2s ease;
+    transform: translate(-50%, -50%);
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(201,151,58,0.5);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.35s ease, opacity 0.2s ease;
+    transform: translate(-50%, -50%);
+  }
+  body:hover .cursor { opacity: 1; }
+
+  /* Nav */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem 3rem;
+    background: rgba(10,10,10,0.7);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    transition: padding 0.3s ease;
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.25rem;
+    letter-spacing: 0.2em;
+    color: var(--gold-light);
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+    font-weight: 400;
+  }
+  .nav-links a:hover { color: var(--gold-light); }
+  .nav-cta {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--gold);
+    padding: 0.6rem 1.4rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 3rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 70% at 80% 40%, rgba(42,21,40,0.6) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 50% at 20% 80%, rgba(201,151,58,0.08) 0%, transparent 60%),
+      linear-gradient(180deg, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.85) 100%);
+    z-index: 1;
+  }
+  .hero-img-placeholder {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 80% at 75% 30%, rgba(90,20,80,0.25) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 70% 50%, rgba(201,151,58,0.06) 0%, transparent 50%),
+      linear-gradient(135deg, #0f0810 0%, #1a0d18 30%, #0d0d0d 70%);
+  }
+  /* Animated orbs */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    animation: float 8s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .orb-1 { width: 500px; height: 500px; background: rgba(90,20,80,0.2); top: -100px; right: -100px; animation-delay: 0s; }
+  .orb-2 { width: 300px; height: 300px; background: rgba(201,151,58,0.1); bottom: 100px; right: 200px; animation-delay: 3s; }
+  .orb-3 { width: 200px; height: 200px; background: rgba(150,30,120,0.15); top: 200px; left: 100px; animation-delay: 5s; }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-30px) scale(1.05); }
+  }
+
+  .hero-content { position: relative; z-index: 2; max-width: 750px; }
+  .hero-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+    opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 40px; height: 1px;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--cream);
+    margin-bottom: 1rem;
+    opacity: 0; animation: fadeUp 0.8s ease 0.4s forwards;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold-light);
+    font-weight: 300;
+  }
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--cream-dim);
+    max-width: 480px;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+    opacity: 0; animation: fadeUp 0.8s ease 0.6s forwards;
+  }
+  .hero-actions {
+    display: flex; gap: 1rem; align-items: center;
+    opacity: 0; animation: fadeUp 0.8s ease 0.8s forwards;
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--gold);
+    color: var(--black);
+    padding: 1rem 2rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-secondary {
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 0.5rem;
+    transition: color 0.2s;
+    border-bottom: 1px solid rgba(200,184,154,0.3);
+    padding-bottom: 2px;
+  }
+  .btn-secondary:hover { color: var(--gold-light); border-color: var(--gold); }
+
+  .hero-stats {
+    position: absolute; right: 3rem; bottom: 5rem; z-index: 2;
+    display: flex; flex-direction: column; gap: 1.5rem;
+    opacity: 0; animation: fadeIn 1s ease 1s forwards;
+  }
+  .stat { text-align: right; }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--gold-light);
+    line-height: 1;
+  }
+  .stat-label { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+
+  /* Marquee */
+  .marquee-wrap {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    padding: 1rem 0;
+    background: var(--deep);
+  }
+  .marquee-track {
+    display: flex;
+    animation: marquee 20s linear infinite;
+    white-space: nowrap;
+  }
+  .marquee-item {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--gold);
+    padding: 0 2rem;
+    display: flex; align-items: center; gap: 2rem;
+  }
+  .marquee-dot { width: 4px; height: 4px; background: var(--gold-dim); border-radius: 50%; flex-shrink: 0; }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* Sections */
+  section { padding: 6rem 3rem; }
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .section-label::after { content: ''; flex: 1; max-width: 40px; height: 1px; background: var(--gold-dim); }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+  .section-title em { font-style: italic; color: var(--gold-light); }
+
+  /* About */
+  .about { background: var(--deep); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; max-width: 1100px; margin: 0 auto; }
+  .about-visual {
+    position: relative;
+    height: 500px;
+  }
+  .about-card {
+    position: absolute;
+    border: 1px solid var(--border);
+    background: var(--card);
+    overflow: hidden;
+  }
+  .about-card-main {
+    inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, #1a0d18 0%, #0d0d0d 100%);
+  }
+  .drink-icon {
+    font-size: 6rem;
+    filter: drop-shadow(0 0 40px rgba(201,151,58,0.4));
+    animation: glow 3s ease-in-out infinite;
+  }
+  @keyframes glow {
+    0%, 100% { filter: drop-shadow(0 0 30px rgba(201,151,58,0.3)); }
+    50% { filter: drop-shadow(0 0 60px rgba(201,151,58,0.6)); }
+  }
+  .about-badge {
+    position: absolute;
+    bottom: -1px; right: -1px;
+    background: var(--gold);
+    color: var(--black);
+    padding: 1rem 1.5rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .about-text p {
+    color: var(--cream-dim);
+    line-height: 1.9;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+  }
+  .about-text p:first-of-type {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1.7;
+  }
+  .gold-line {
+    width: 60px; height: 1px;
+    background: var(--gold);
+    margin: 2rem 0;
+  }
+
+  /* Services */
+  .services { background: var(--black); }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 3rem;
+    max-width: 1100px;
+  }
+  .service-card {
+    background: var(--black);
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s ease;
+    cursor: none;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(201,151,58,0.05) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .service-card:hover { background: var(--card); }
+  .service-card:hover::before { opacity: 1; }
+  .service-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    font-weight: 300;
+    color: rgba(201,151,58,0.12);
+    line-height: 1;
+    margin-bottom: 1.5rem;
+    transition: color 0.3s;
+  }
+  .service-card:hover .service-num { color: rgba(201,151,58,0.25); }
+  .service-icon { font-size: 1.5rem; margin-bottom: 1rem; }
+  .service-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.02em;
+  }
+  .service-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.8; margin-bottom: 1.5rem; }
+  .service-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--gold-dim);
+    padding: 0.3rem 0.75rem;
+  }
+
+  /* Gallery / Experience */
+  .experience { background: var(--plum); padding: 6rem 3rem; }
+  .exp-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 250px 250px;
+    gap: 1px;
+    background: rgba(201,151,58,0.1);
+    margin-top: 3rem;
+    max-width: 1100px;
+  }
+  .exp-cell {
+    background: rgba(20,10,20,0.8);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    transition: background 0.3s;
+  }
+  .exp-cell:hover { background: rgba(30,15,30,0.9); }
+  .exp-cell-1 { grid-row: span 2; }
+  .exp-inner {
+    text-align: center;
+    padding: 2rem;
+  }
+  .exp-emoji { font-size: 3rem; display: block; margin-bottom: 1rem; }
+  .exp-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: var(--gold-light);
+    font-style: italic;
+  }
+  .exp-cell-1 .exp-inner { padding: 3rem; }
+  .exp-cell-1 .exp-emoji { font-size: 5rem; }
+  .exp-cell-1 .exp-label { font-size: 1.5rem; }
+  .exp-shimmer {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, transparent 40%, rgba(201,151,58,0.05) 50%, transparent 60%);
+    animation: shimmer 4s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0%, 100% { transform: translateX(-100%); }
+    50% { transform: translateX(100%); }
+  }
+
+  /* Testimonials */
+  .testimonials { background: var(--deep); }
+  .testimonials-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3rem; max-width: 1100px; }
+  .testi-card {
+    border: 1px solid var(--border);
+    padding: 2rem;
+    position: relative;
+    background: var(--card);
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .testi-card:hover { border-color: var(--gold-dim); transform: translateY(-4px); }
+  .testi-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+  .testi-text {
+    font-size: 0.9rem;
+    color: var(--cream-dim);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+  .testi-author { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+  .testi-event { font-size: 0.68rem; color: var(--muted); margin-top: 0.2rem; }
+  .stars { color: var(--gold); font-size: 0.8rem; margin-bottom: 1rem; letter-spacing: 2px; }
+
+  /* Booking */
+  .booking {
+    background: var(--black);
+    position: relative; overflow: hidden;
+  }
+  .booking-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 50% 50%, rgba(42,21,40,0.6) 0%, transparent 70%),
+      radial-gradient(ellipse 30% 40% at 80% 20%, rgba(201,151,58,0.05) 0%, transparent 50%);
+  }
+  .booking-inner {
+    position: relative; z-index: 1;
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .booking .section-label { justify-content: center; }
+  .booking .section-label::after { display: none; }
+  .booking .section-label::before { content: ''; flex: 1; max-width: 40px; height: 1px; background: var(--gold-dim); }
+  .booking-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+  .booking-title em { font-style: italic; color: var(--gold-light); }
+  .booking-sub {
+    color: var(--cream-dim);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+    max-width: 480px;
+    margin-left: auto; margin-right: auto;
+  }
+  .contact-options { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3rem; }
+  .contact-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    flex: 1; min-width: 160px;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .contact-card:hover { border-color: var(--gold-dim); transform: translateY(-3px); }
+  .contact-icon { font-size: 1.5rem; margin-bottom: 0.75rem; display: block; }
+  .contact-type { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem; }
+  .contact-val { font-size: 0.9rem; color: var(--cream); font-weight: 400; }
+  .booking-form {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 2.5rem;
+    text-align: left;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+  .form-group:last-child { margin-bottom: 0; }
+  .form-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .form-input, .form-select, .form-textarea {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    color: var(--cream);
+    padding: 0.85rem 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 300;
+    width: 100%;
+    transition: border-color 0.2s;
+    outline: none;
+    -webkit-appearance: none;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--gold-dim);
+  }
+  .form-input::placeholder, .form-textarea::placeholder { color: var(--muted); }
+  .form-select option { background: var(--card); }
+  .form-textarea { resize: vertical; min-height: 100px; }
+  .form-submit {
+    width: 100%;
+    background: var(--gold);
+    color: var(--black);
+    border: none;
+    padding: 1.1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: none;
+    transition: background 0.2s, transform 0.2s;
+    margin-top: 1.5rem;
+  }
+  .form-submit:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  /* Footer */
+  footer {
+    background: var(--deep);
+    border-top: 1px solid var(--border);
+    padding: 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  .footer-brand {}
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.1rem;
+    letter-spacing: 0.2em;
+    color: var(--gold-light);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+  .footer-tagline {
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 0.6rem; }
+  .footer-links a {
+    font-size: 0.82rem;
+    color: var(--cream-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+    letter-spacing: 0.05em;
+  }
+  .footer-links a:hover { color: var(--gold-light); }
+  .footer-head { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+  .footer-social { display: flex; gap: 1rem; margin-top: 0.5rem; }
+  .social-link {
+    width: 36px; height: 36px;
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cream-dim);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+  }
+  .social-link:hover { border-color: var(--gold); color: var(--gold); }
+  .footer-copy {
+    grid-column: span 3;
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-copy p { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.05em; }
+
+  /* Scroll reveal */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    nav { padding: 1.25rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { padding: 0 1.5rem 4rem; }
+    section { padding: 4rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .about-visual { height: 300px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .exp-grid { grid-template-columns: 1fr 1fr; }
+    .exp-cell-1 { grid-row: span 1; grid-column: span 2; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    footer { grid-template-columns: 1fr; }
+    .footer-copy { grid-column: span 1; flex-direction: column; gap: 0.5rem; text-align: center; }
+    .hero-stats { display: none; }
+    .contact-options { flex-direction: column; }
+  }
+
+  /* Grant-friendly print styles */
+  @media print {
+    body { cursor: auto; background: white; color: black; }
+    .cursor, .cursor-ring { display: none; }
+    nav { position: static; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Nav -->
+<nav>
+  <a href="#" class="nav-logo">PneumaLux</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#booking">Book</a></li>
+  </ul>
+  <a href="#booking" class="nav-cta">Book Now</a>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-img-placeholder"></div>
+  <div class="hero-bg"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Signature Mocktail Experiences</div>
+    <h1 class="hero-title">
+      Elevate.<br>
+      <em>Sip.</em><br>
+      Celebrate.
+    </h1>
+    <p class="hero-sub">
+      Premium alcohol-free mocktails for luxury events, private parties, bridal showers, and celebrations. Crafted to impress. Unforgettable by design.
+    </p>
+    <div class="hero-actions">
+      <a href="#booking" class="btn-primary">
+        Book Your Experience
+        <span>→</span>
+      </a>
+      <a href="#services" class="btn-secondary">
+        Explore Services
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Alcohol Free</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">614</div>
+      <div class="stat-label">Columbus, Ohio</div>
+    </div>
+  </div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item">Luxury Events <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Bridal Showers <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Private Parties <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Celebrations <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Corporate Events <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Baby Showers <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Crafted to Impress <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Luxury Events <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Bridal Showers <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Private Parties <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Celebrations <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Corporate Events <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Baby Showers <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Crafted to Impress <span class="marquee-dot"></span></div>
+  </div>
+</div>
+
+<!-- About -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div class="about-visual reveal">
+      <div class="about-card about-card-main">
+        <div class="drink-icon">🍸</div>
+        <div class="about-badge">Columbus, Ohio</div>
+      </div>
+    </div>
+    <div class="about-text reveal">
+      <div class="section-label">Our Story</div>
+      <h2 class="section-title">The full luxury experience (without the alcohol)</h2>
+      <p>
+        PneumaLux Sips Co. was created for people who want to celebrate fully and freely. Every sip is intentionally crafted (bold flavors, beautiful presentation, and a bar service your guests will talk about long after the event is over.
+      </p>
+      <p>
+        Whether it's an intimate bridal shower or a large-scale celebration, we bring the sophistication. Because you deserve a drink that looks as good as the moment feels.
+      </p>
+      <div class="gold-line"></div>
+      <p style="font-size:0.8rem; letter-spacing:0.05em; color:var(--muted);">
+        Women-owned · Columbus, Ohio · Est. 2024
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section class="services" id="services">
+  <div style="max-width:1100px; margin:0 auto;">
+    <div class="section-label reveal">What We Offer</div>
+    <h2 class="section-title reveal">Every occasion, <em>elevated</em></h2>
+  </div>
+  <div style="max-width:1100px; margin:0 auto;">
+    <div class="services-grid reveal">
+      <div class="service-card">
+        <div class="service-num">01</div>
+        <div class="service-icon">👑</div>
+        <div class="service-name">Luxury Events</div>
+        <p class="service-desc">Elevate your next event with sophisticated, alcohol-free sips your guests will remember. Full bar setup, signature menu, and exclusive service (handled.</p>
+        <span class="service-tag">Corporate & Upscale</span>
+      </div>
+      <div class="service-card">
+        <div class="service-num">02</div>
+        <div class="service-icon">💍</div>
+        <div class="service-name">Bridal Showers</div>
+        <p class="service-desc">Celebrate love with elegant, alcohol-free mocktails that shine as bright as she does. Beautifully presented, perfectly on theme.</p>
+        <span class="service-tag">Bridal & Wedding</span>
+      </div>
+      <div class="service-card">
+        <div class="service-num">03</div>
+        <div class="service-icon">🥂</div>
+        <div class="service-name">Private Parties</div>
+        <p class="service-desc">Intimate gatherings made extraordinary. Custom mocktail menus crafted around your theme, your people, and your moment.</p>
+        <span class="service-tag">Private & Intimate</span>
+      </div>
+      <div class="service-card">
+        <div class="service-num">04</div>
+        <div class="service-icon">🎉</div>
+        <div class="service-name">Celebrations & Milestones</div>
+        <p class="service-desc">Birthdays, baby showers, graduations (from every milestone to every moment, we craft drinks that make the occasion unforgettable.</p>
+        <span class="service-tag">All Occasions</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Experience Gallery -->
+<section class="experience" id="experience">
+  <div style="max-width:1100px; margin:0 auto;">
+    <div class="section-label reveal">The Experience</div>
+    <h2 class="section-title reveal">Crafted to <em>impress</em></h2>
+    <div class="exp-grid reveal">
+      <div class="exp-cell exp-cell-1">
+        <div class="exp-shimmer"></div>
+        <div class="exp-inner">
+          <span class="exp-emoji">🍸</span>
+          <div class="exp-label">Premium alcohol-free mocktails (beautiful in presentation, bold in flavor</div>
+        </div>
+      </div>
+      <div class="exp-cell">
+        <div class="exp-shimmer"></div>
+        <div class="exp-inner">
+          <span class="exp-emoji">✨</span>
+          <div class="exp-label">Luxury Setup</div>
+        </div>
+      </div>
+      <div class="exp-cell">
+        <div class="exp-shimmer"></div>
+        <div class="exp-inner">
+          <span class="exp-emoji">🌿</span>
+          <div class="exp-label">Fresh Ingredients</div>
+        </div>
+      </div>
+      <div class="exp-cell">
+        <div class="exp-shimmer"></div>
+        <div class="exp-inner">
+          <span class="exp-emoji">🎨</span>
+          <div class="exp-label">Custom Menus</div>
+        </div>
+      </div>
+      <div class="exp-cell">
+        <div class="exp-shimmer"></div>
+        <div class="exp-inner">
+          <span class="exp-emoji">💫</span>
+          <div class="exp-label">Signature Presentation</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials">
+  <div style="max-width:1100px; margin:0 auto;">
+    <div class="section-label reveal">Kind Words</div>
+    <h2 class="section-title reveal">What our clients <em>say</em></h2>
+    <div class="testimonials-grid reveal">
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <div class="testi-quote">"</div>
+        <p class="testi-text">PneumaLux completely transformed our bridal shower. Every single guest (drinkers and non-drinkers alike) was obsessed with the mocktails. The presentation was stunning.</p>
+        <div class="testi-author">Amara J.</div>
+        <div class="testi-event">Bridal Shower · Columbus, OH</div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <div class="testi-quote">"</div>
+        <p class="testi-text">I didn't want a typical bar service (I wanted something elevated and inclusive. PneumaLux delivered beyond what I imagined. My guests are still talking about it.</p>
+        <div class="testi-author">Destiny M.</div>
+        <div class="testi-event">Birthday Celebration · Columbus, OH</div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <div class="testi-quote">"</div>
+        <p class="testi-text">Booked PneumaLux for our corporate holiday event and the feedback was incredible. A genuinely unique and sophisticated experience from start to finish.</p>
+        <div class="testi-author">Rachel T.</div>
+        <div class="testi-event">Corporate Event · Columbus, OH</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Booking -->
+<section class="booking" id="booking">
+  <div class="booking-bg"></div>
+  <div class="booking-inner reveal">
+    <div class="section-label">Get In Touch</div>
+    <h2 class="booking-title">Ready to <em>elevate</em> your event?</h2>
+    <p class="booking-sub">
+      Tell us about your occasion and we'll craft something unforgettable. Every experience is custom (let's build yours.
+    </p>
+
+    <div class="contact-options">
+      <div class="contact-card">
+        <span class="contact-icon">📞</span>
+        <div class="contact-type">Call or Text</div>
+        <div class="contact-val">614-377-6633</div>
+      </div>
+      <div class="contact-card">
+        <span class="contact-icon">📸</span>
+        <div class="contact-type">Instagram</div>
+        <div class="contact-val">@pneumalux.sips.co</div>
+      </div>
+      <div class="contact-card">
+        <span class="contact-icon">🎵</span>
+        <div class="contact-type">TikTok</div>
+        <div class="contact-val">@pneumalux.sips.co</div>
+      </div>
+    </div>
+
+    <div class="booking-form">
+      <div style="font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;">Book Your Experience</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Your Name</label>
+          <input type="text" class="form-input" placeholder="Full name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone / Email</label>
+          <input type="text" class="form-input" placeholder="How to reach you">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Event Type</label>
+          <select class="form-select">
+            <option value="" disabled selected>Select your event</option>
+            <option>Bridal Shower</option>
+            <option>Private Party</option>
+            <option>Luxury Event</option>
+            <option>Birthday Celebration</option>
+            <option>Baby Shower</option>
+            <option>Corporate Event</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Event Date</label>
+          <input type="date" class="form-input">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Tell us about your vision</label>
+        <textarea class="form-textarea" placeholder="Guest count, theme, location, any special requests..."></textarea>
+      </div>
+      <button class="form-submit" onclick="handleSubmit()">Send My Inquiry →</button>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-brand">
+    <span class="footer-logo">PneumaLux Sips Co.</span>
+    <div class="footer-tagline">Elevate · Sip · Celebrate</div>
+    <div style="margin-top:1.5rem;">
+      <div class="footer-head">Follow Us</div>
+      <div class="footer-social">
+        <a href="https://instagram.com/pneumalux.sips.co" target="_blank" class="social-link">IG</a>
+        <a href="https://tiktok.com/@pneumalux.sips.co" target="_blank" class="social-link">TT</a>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="footer-head">Quick Links</div>
+    <ul class="footer-links">
+      <li><a href="#about">About Us</a></li>
+      <li><a href="#services">Our Services</a></li>
+      <li><a href="#experience">The Experience</a></li>
+      <li><a href="#booking">Book Now</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="footer-head">Contact</div>
+    <ul class="footer-links">
+      <li><a href="tel:6143776633">614-377-6633</a></li>
+      <li><a href="https://instagram.com/pneumalux.sips.co" target="_blank">@pneumalux.sips.co</a></li>
+      <li><a href="#booking">Request a Quote</a></li>
+    </ul>
+    <div style="margin-top:1.5rem;">
+      <div class="footer-head">Location</div>
+      <p style="font-size:0.82rem;color:var(--cream-dim);line-height:1.7;">Columbus, Ohio<br>Serving the greater Columbus area</p>
+    </div>
+  </div>
+  <div class="footer-copy">
+    <p>© 2026 PneumaLux Sips Co. All rights reserved. Women-owned · Columbus, Ohio</p>
+    <p>Signature Mocktail Experiences</p>
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursor.style.left = mouseX + 'px';
+    cursor.style.top = mouseY + 'px';
+  });
+
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.12;
+    ringY += (mouseY - ringY) * 0.12;
+    ring.style.left = ringX + 'px';
+    ring.style.top = ringY + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button, .service-card, .testi-card, .contact-card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform = 'translate(-50%, -50%) scale(2.5)';
+      ring.style.opacity = '0.4';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+      ring.style.opacity = '1';
+    });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Sticky nav shrink
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 80) {
+      nav.style.padding = '1rem 3rem';
+    } else {
+      nav.style.padding = '1.5rem 3rem';
+    }
+  });
+
+  // Form submit
+  function handleSubmit() {
+    const name = document.querySelector('.form-input').value;
+    const btn = document.querySelector('.form-submit');
+    if (!name.trim()) {
+      btn.textContent = 'Please fill in your name first';
+      btn.style.background = '#7a5c22';
+      setTimeout(() => {
+        btn.textContent = 'Send My Inquiry →';
+        btn.style.background = '';
+      }, 2000);
+      return;
+    }
+    btn.textContent = '✓ Inquiry Sent (We\'ll be in touch soon!';
+    btn.style.background = '#2d6a4f';
+    setTimeout(() => {
+      btn.textContent = 'Send My Inquiry →';
+      btn.style.background = '';
+    }, 4000);
+  }
+
+  // Smooth anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>
