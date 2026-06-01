@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PneumaLux Pricing Calculator</title>
+<title>PneumaLux Event Setup Calculator</title>
 <style>
   :root {
     --black: #0d0d1a;
@@ -137,9 +137,8 @@
 
   .checkbox-group {
     display: flex;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-    margin-bottom: 1rem;
+    flex-direction: column;
+    gap: 1rem;
   }
 
   .checkbox-item {
@@ -296,6 +295,16 @@
     margin-bottom: 1.5rem;
   }
 
+  .info-box {
+    background: rgba(124,58,237,0.1);
+    border-left: 3px solid var(--violet);
+    padding: 1rem;
+    border-radius: 2px;
+    color: var(--cream-dim);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
   @media (max-width: 768px) {
     .main-grid { grid-template-columns: 1fr; }
     h1 { font-size: 1.8rem; }
@@ -308,9 +317,13 @@
 
 <div class="container">
   <header>
-    <h1>PneumaLux <em>Pricing</em> Calculator</h1>
-    <p class="subtitle">Real-time quote generation based on your event details</p>
+    <h1>PneumaLux <em>Event</em> Calculator</h1>
+    <p class="subtitle">Pricing for mocktail prep, setup & decorations (self-serve model)</p>
   </header>
+
+  <div class="info-box">
+    💡 You prepare the mocktails & set up the bar. Clients serve themselves. Calculate total cost + suggested service fee.
+  </div>
 
   <div class="main-grid">
     <!-- INPUT PANEL -->
@@ -329,74 +342,86 @@
 
       <!-- Mocktail Selection -->
       <div class="form-group">
-        <label>Mocktail Options (select at least 1)</label>
+        <label>Mocktail Mix (select which you'll make)</label>
         <div class="checkbox-group">
           <div class="checkbox-item">
             <input type="checkbox" id="dragonfruit" checked data-cost="3.137">
-            <label class="checkbox-label" for="dragonfruit">Dragonfruit Margarita ($3.14)</label>
+            <label class="checkbox-label" for="dragonfruit">Dragonfruit Margarita ($3.14/unit)</label>
           </div>
           <div class="checkbox-item">
             <input type="checkbox" id="sunset" checked data-cost="3.225">
-            <label class="checkbox-label" for="sunset">Sunset ($3.23)</label>
+            <label class="checkbox-label" for="sunset">Sunset ($3.23/unit)</label>
           </div>
           <div class="checkbox-item">
             <input type="checkbox" id="bluelemonade" checked data-cost="1.637">
-            <label class="checkbox-label" for="bluelemonade">Blue Lemonade ($1.64)</label>
+            <label class="checkbox-label" for="bluelemonade">Blue Lemonade ($1.64/unit)</label>
           </div>
           <div class="checkbox-item">
             <input type="checkbox" id="pinacolada" checked data-cost="1.720">
-            <label class="checkbox-label" for="pinacolada">Piña Colada ($1.72)</label>
+            <label class="checkbox-label" for="pinacolada">Piña Colada ($1.72/unit)</label>
           </div>
         </div>
       </div>
 
-      <!-- Add-ons -->
+      <!-- Premium Add-Ons -->
       <div class="form-group">
-        <label>Premium Add-Ons</label>
+        <label>Setup & Decoration Options</label>
         <div class="checkbox-group">
           <div class="checkbox-item">
-            <input type="checkbox" id="garnish" data-cost="garni">
-            <label class="checkbox-label" for="garnish">Premium Garnish (+$0.50/guest)</label>
+            <input type="checkbox" id="garnish" checked>
+            <label class="checkbox-label" for="garnish">Premium Garnish Station (+$0.50/guest)</label>
           </div>
           <div class="checkbox-item">
-            <input type="checkbox" id="dryice">
-            <label class="checkbox-label" for="dryice">Dry Ice Effect (+$100 fixed)</label>
+            <input type="checkbox" id="dryice" checked>
+            <label class="checkbox-label" for="dryice">Dry Ice Fog Effect (+$100 fixed)</label>
           </div>
           <div class="checkbox-item">
-            <input type="checkbox" id="personalized">
+            <input type="checkbox" id="personalized" checked>
             <label class="checkbox-label" for="personalized">Personalized Cups (+$0.12/guest)</label>
           </div>
           <div class="checkbox-item">
-            <input type="checkbox" id="floral">
-            <label class="checkbox-label" for="floral">Floral Arrangement (+$4/guest)</label>
+            <input type="checkbox" id="floral" checked>
+            <label class="checkbox-label" for="floral">Floral Centerpiece (+$4/guest)</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="menuprint" checked>
+            <label class="checkbox-label" for="menuprint">Menu Printing & Signage (+$1/guest)</label>
           </div>
           <div class="checkbox-item">
             <input type="checkbox" id="dessert">
-            <label class="checkbox-label" for="dessert">Dessert Pairing ($7.50/guest)</label>
+            <label class="checkbox-label" for="dessert">Dessert Pairing Station (+$7.50/guest)</label>
           </div>
         </div>
       </div>
 
-      <!-- Ingredient Price Adjustment -->
+      <!-- Cost Adjustment -->
       <div class="form-group">
-        <label for="priceAdjust">Cost Adjustment Factor</label>
+        <label for="costAdjust">Cost Factor (ingredient price changes)</label>
         <div style="display: flex; gap: 1rem; align-items: center;">
-          <input type="number" id="priceAdjust" min="0.8" max="1.5" step="0.05" value="1" style="flex: 1;">
+          <input type="number" id="costAdjust" min="0.8" max="1.5" step="0.05" value="1" style="flex: 1;">
           <span style="color: var(--muted); font-size: 0.85rem;">×1.0 = baseline</span>
         </div>
-        <p style="font-size: 0.8rem; color: var(--muted); margin-top: 0.5rem;">Use 1.1 for 10% price increase, 0.9 for 10% decrease</p>
+        <p style="font-size: 0.8rem; color: var(--muted); margin-top: 0.3rem;">1.1 = 10% price increase</p>
       </div>
 
-      <!-- Service Hours -->
+      <!-- Prep & Setup Hours -->
       <div class="form-group">
-        <label for="hours">Service Hours</label>
-        <input type="number" id="hours" min="1" max="12" step="0.5" value="3">
+        <label for="prepHours">Prep & Setup Hours</label>
+        <input type="number" id="prepHours" min="1" max="12" step="0.5" value="3">
+        <p style="font-size: 0.8rem; color: var(--muted); margin-top: 0.3rem;">Shopping, prep, setup, breakdown</p>
       </div>
 
       <!-- Hourly Rate -->
       <div class="form-group">
-        <label for="hourlyRate">Hourly Service Rate ($/hr)</label>
+        <label for="hourlyRate">Your Hourly Rate ($/hr)</label>
         <input type="number" id="hourlyRate" min="10" max="100" step="5" value="20">
+      </div>
+
+      <!-- Travel -->
+      <div class="form-group">
+        <label for="travelFee">Travel Fee ($)</label>
+        <input type="number" id="travelFee" min="0" max="200" step="5" value="0">
+        <p style="font-size: 0.8rem; color: var(--muted); margin-top: 0.3rem;">For events outside 50-mile radius</p>
       </div>
 
       <div class="button-group">
@@ -415,36 +440,40 @@
           <span class="summary-value" id="outGuests">25</span>
         </div>
         <div class="summary-row">
-          <span class="summary-label">Cost per Guest</span>
-          <span class="summary-value amount" id="outPerGuest">$2.43</span>
+          <span class="summary-label">Mocktails (avg cost/guest)</span>
+          <span class="summary-value amount" id="outMocktailPerGuest">$2.43</span>
         </div>
         <div class="summary-row">
-          <span class="summary-label">Add-ons & Setup</span>
-          <span class="summary-value amount" id="outAddons">$0.00</span>
+          <span class="summary-label">Setup & Decorations</span>
+          <span class="summary-value amount" id="outSetup">$32.50</span>
         </div>
         <div class="summary-row">
-          <span class="summary-label">Labor & Operations</span>
-          <span class="summary-value amount" id="outLabor">$127.90</span>
+          <span class="summary-label">Your Labor</span>
+          <span class="summary-value amount" id="outLabor">$60.00</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Admin & Operations</span>
+          <span class="summary-value amount" id="outOps">$65.40</span>
         </div>
         <div class="summary-row">
           <span class="summary-label">Total Cost</span>
-          <span class="summary-value amount" id="outTotal">$212.63</span>
+          <span class="summary-value amount" id="outTotal">$160.33</span>
         </div>
         <div class="summary-row">
-          <span class="summary-label">Suggested Price (30% margin)</span>
-          <span class="summary-value amount" id="outPrice">$303.76</span>
+          <span class="summary-label">Suggested Fee (30% margin)</span>
+          <span class="summary-value amount" id="outPrice">$228.90</span>
         </div>
         <div class="summary-row">
           <div>
             <span class="summary-label">Profit Margin</span>
-            <br><span class="margin-percent" id="outMarginPct">29.85%</span>
+            <br><span class="margin-percent" id="outMarginPct">30%</span>
           </div>
-          <span class="margin-indicator" id="outMargin">$91.13</span>
+          <span class="margin-indicator" id="outMargin">$68.57</span>
         </div>
       </div>
 
       <div id="warningBox" style="display:none;" class="warning">
-        ⚠️ Margin below 20%. Consider adjusting pricing or reducing costs.
+        ⚠️ Margin below 20%. Consider increasing price or reducing costs.
       </div>
 
       <h3 style="font-size: 1.1rem; color: var(--gold); margin-top: 2rem; margin-bottom: 1rem;">Cost Breakdown</h3>
@@ -457,20 +486,24 @@
         </thead>
         <tbody id="breakdown">
           <tr>
-            <td>Mocktails (avg cost)</td>
+            <td>Mocktails (ingredients)</td>
             <td class="amount">$60.75</td>
           </tr>
           <tr>
-            <td>Labor (setup, service, admin)</td>
-            <td class="amount">$127.90</td>
+            <td>Setup & Decorations</td>
+            <td class="amount">$32.50</td>
           </tr>
           <tr>
-            <td>Operations (cups, floral, gas)</td>
-            <td class="amount">$23.98</td>
+            <td>Your Labor (3 hrs @ $20)</td>
+            <td class="amount">$60.00</td>
+          </tr>
+          <tr>
+            <td>Operations (admin, gas, etc.)</td>
+            <td class="amount">$65.40</td>
           </tr>
           <tr style="font-weight: 500; border-top: 2px solid var(--border);">
             <td>Total</td>
-            <td class="amount">$212.63</td>
+            <td class="amount">$218.65</td>
           </tr>
         </tbody>
       </table>
@@ -487,7 +520,6 @@
   const guestInput = document.getElementById('guestInput');
   const guestDisplay = document.getElementById('guestDisplay');
 
-  // Sync guest input and range
   guestRange.addEventListener('input', (e) => {
     guestInput.value = e.target.value;
     guestDisplay.textContent = e.target.value;
@@ -500,8 +532,7 @@
     calculateQuote();
   });
 
-  // Auto-calculate on any change
-  document.querySelectorAll('input[type="checkbox"], input[type="number"], select').forEach(el => {
+  document.querySelectorAll('input[type="checkbox"], input[type="number"]').forEach(el => {
     el.addEventListener('change', calculateQuote);
     el.addEventListener('input', calculateQuote);
   });
@@ -509,59 +540,55 @@
   function calculateQuote() {
     const guests = parseInt(guestInput.value) || 25;
     const selectedMocktails = document.querySelectorAll('input[type="checkbox"][data-cost]:checked');
-    const priceAdjust = parseFloat(document.getElementById('priceAdjust').value) || 1;
-    const hours = parseFloat(document.getElementById('hours').value) || 3;
+    const costAdjust = parseFloat(document.getElementById('costAdjust').value) || 1;
+    const prepHours = parseFloat(document.getElementById('prepHours').value) || 3;
     const hourlyRate = parseFloat(document.getElementById('hourlyRate').value) || 20;
+    const travelFee = parseFloat(document.getElementById('travelFee').value) || 0;
 
     // Calculate average mocktail cost
     let totalMocktailCost = 0;
     selectedMocktails.forEach(el => {
       totalMocktailCost += parseFloat(el.getAttribute('data-cost'));
     });
-    const avgMocktailCost = (totalMocktailCost / Math.max(selectedMocktails.length, 1)) * priceAdjust;
+    const avgMocktailCost = (totalMocktailCost / Math.max(selectedMocktails.length, 1)) * costAdjust;
+    const mocktailsTotal = avgMocktailCost * guests;
 
-    // Mocktail cost
-    const mocktailTotal = avgMocktailCost * guests;
+    // Setup & Decorations
+    let setupTotal = 0;
+    if (document.getElementById('garnish').checked) setupTotal += 0.50 * guests;
+    if (document.getElementById('dryice').checked) setupTotal += 100;
+    if (document.getElementById('personalized').checked) setupTotal += 0.12 * guests;
+    if (document.getElementById('floral').checked) setupTotal += 4 * guests;
+    if (document.getElementById('menuprint').checked) setupTotal += 1 * guests;
+    if (document.getElementById('dessert').checked) setupTotal += 7.50 * guests;
 
-    // Add-ons
-    let addonsTotal = 0;
-    if (document.getElementById('garnish').checked) addonsTotal += 0.50 * guests;
-    if (document.getElementById('dryice').checked) addonsTotal += 100;
-    if (document.getElementById('personalized').checked) addonsTotal += 0.12 * guests;
-    if (document.getElementById('floral').checked) addonsTotal += 4 * guests;
-    if (document.getElementById('dessert').checked) addonsTotal += 7.50 * guests;
+    // Labor
+    const laborTotal = prepHours * hourlyRate;
 
-    // Labor & Operations
-    const prepSetup = (guests / 25) * 62.50; // scales with group size
-    const shopping = 40;
-    const gas = 5.40;
-    const admin = 20;
-    const laborTotal = prepSetup + shopping + gas + admin;
-
-    // Operations (fixed + variable)
-    const disposableCups = guests * 0.12;
-    const menuPrinting = 1;
-    const operationsTotal = disposableCups + menuPrinting;
+    // Operations (fixed admin + travel)
+    const baseOps = 65.40;
+    const opsTotal = baseOps + travelFee;
 
     // Total cost
-    const totalCost = mocktailTotal + addonsTotal + laborTotal + operationsTotal;
+    const totalCost = mocktailsTotal + setupTotal + laborTotal + opsTotal;
 
-    // Suggested price (30% margin target)
-    const suggestedPrice = totalCost / 0.7; // 30% margin = price * 0.7 = cost
+    // Suggested price (30% margin)
+    const suggestedPrice = totalCost / 0.7;
     const margin = suggestedPrice - totalCost;
-    const marginPercent = (margin / suggestedPrice * 100).toFixed(2);
+    const marginPercent = (margin / suggestedPrice * 100).toFixed(1);
 
     // Update output
     document.getElementById('outGuests').textContent = guests;
-    document.getElementById('outPerGuest').textContent = `$${avgMocktailCost.toFixed(2)}`;
-    document.getElementById('outAddons').textContent = `$${addonsTotal.toFixed(2)}`;
+    document.getElementById('outMocktailPerGuest').textContent = `$${avgMocktailCost.toFixed(2)}`;
+    document.getElementById('outSetup').textContent = `$${setupTotal.toFixed(2)}`;
     document.getElementById('outLabor').textContent = `$${laborTotal.toFixed(2)}`;
+    document.getElementById('outOps').textContent = `$${opsTotal.toFixed(2)}`;
     document.getElementById('outTotal').textContent = `$${totalCost.toFixed(2)}`;
     document.getElementById('outPrice').textContent = `$${suggestedPrice.toFixed(2)}`;
     document.getElementById('outMargin').textContent = `$${margin.toFixed(2)}`;
     document.getElementById('outMarginPct').textContent = `${marginPercent}%`;
 
-    // Warning if margin < 20%
+    // Warning
     const warning = document.getElementById('warningBox');
     if (marginPercent < 20) {
       warning.style.display = 'block';
@@ -569,24 +596,27 @@
       warning.style.display = 'none';
     }
 
-    // Update breakdown table
-    updateBreakdown(mocktailTotal, laborTotal, operationsTotal + addonsTotal, totalCost);
+    updateBreakdown(mocktailsTotal, setupTotal, laborTotal, opsTotal, totalCost);
   }
 
-  function updateBreakdown(mocktails, labor, operations, total) {
+  function updateBreakdown(mocktails, setup, labor, ops, total) {
     const breakdown = document.getElementById('breakdown');
     breakdown.innerHTML = `
       <tr>
-        <td>Mocktails (avg cost)</td>
+        <td>Mocktails (ingredients)</td>
         <td class="amount">$${mocktails.toFixed(2)}</td>
       </tr>
       <tr>
-        <td>Labor (setup, service, admin)</td>
+        <td>Setup & Decorations</td>
+        <td class="amount">$${setup.toFixed(2)}</td>
+      </tr>
+      <tr>
+        <td>Your Labor</td>
         <td class="amount">$${labor.toFixed(2)}</td>
       </tr>
       <tr>
-        <td>Operations & Add-ons (cups, floral, etc.)</td>
-        <td class="amount">$${operations.toFixed(2)}</td>
+        <td>Operations & Travel</td>
+        <td class="amount">$${ops.toFixed(2)}</td>
       </tr>
       <tr style="font-weight: 500; border-top: 2px solid var(--border);">
         <td>Total</td>
@@ -597,17 +627,15 @@
 
   function exportQuote() {
     const guests = document.getElementById('outGuests').textContent;
-    const perGuest = document.getElementById('outPerGuest').textContent;
     const total = document.getElementById('outTotal').textContent;
     const price = document.getElementById('outPrice').textContent;
     const margin = document.getElementById('outMarginPct').textContent;
 
-    const quote = `PneumaLux Quote Summary
+    const quote = `PneumaLux Event Setup Quote
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Guests: ${guests}
-Cost per Guest: ${perGuest}
 Total Cost: ${total}
-Suggested Price: ${price}
+Suggested Service Fee: ${price}
 Profit Margin: ${margin}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
 
@@ -620,16 +648,16 @@ Profit Margin: ${margin}
     document.getElementById('guestCount').value = 25;
     document.getElementById('guestInput').value = 25;
     document.getElementById('guestDisplay').textContent = 25;
-    document.getElementById('priceAdjust').value = 1;
-    document.getElementById('hours').value = 3;
+    document.getElementById('costAdjust').value = 1;
+    document.getElementById('prepHours').value = 3;
     document.getElementById('hourlyRate').value = 20;
+    document.getElementById('travelFee').value = 0;
     document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-      cb.checked = ['dragonfruit', 'sunset', 'bluelemonade', 'pinacolada'].includes(cb.id);
+      cb.checked = ['dragonfruit', 'sunset', 'bluelemonade', 'pinacolada', 'garnish', 'dryice', 'personalized', 'floral', 'menuprint'].includes(cb.id);
     });
     calculateQuote();
   }
 
-  // Initial calculation
   calculateQuote();
 </script>
 
