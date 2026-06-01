@@ -292,6 +292,16 @@
 </head>
 <body>
 
+<div id="loginScreen" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:linear-gradient(135deg, #0d0d1a 0%, #0f0f20 100%); display:flex; align-items:center; justify-content:center; z-index:9999;">
+  <div style="background:#13132a; border:1px solid rgba(124,58,237,0.25); padding:3rem; border-radius:4px; text-align:center; max-width:400px;">
+    <h2 style="font-size:1.8rem; color:#f0f0ff; margin-bottom:1.5rem; font-weight:300;">PneumaLux Admin</h2>
+    <p style="color:#8b82c4; margin-bottom:2rem; font-size:0.9rem;">Enter password to access dashboard</p>
+    <input type="password" id="passwordInput" placeholder="Password" style="width:100%; padding:0.75rem; background:rgba(255,255,255,0.05); border:1px solid rgba(124,58,237,0.25); color:#f0f0ff; border-radius:2px; font-family:inherit; font-size:0.95rem; margin-bottom:1.5rem;">
+    <button onclick="checkPassword()" style="width:100%; padding:1rem; background:#c9973a; color:#0d0d1a; border:none; border-radius:2px; cursor:pointer; font-weight:500; text-transform:uppercase; letter-spacing:0.1em; transition:all 0.2s;">Access Dashboard</button>
+    <p style="color:#8b82c4; font-size:0.8rem; margin-top:1rem;">Contact 614-377-6633 if you forgot the password</p>
+  </div>
+</div>
+
 <div class="header">
   <h1>PneumaLux <em>Admin</em> Dashboard</h1>
   <p>Manage pricing, contracts, payments & bookings in one place</p>
@@ -699,6 +709,41 @@
   }
 
   calcPrice();
+
+  // Password protection
+  const PASSWORD = 'pneumalux2024';
+
+  window.addEventListener('load', () => {
+    const isLoggedIn = sessionStorage.getItem('pneumalux_admin_login');
+    if (!isLoggedIn) {
+      document.getElementById('loginScreen').style.display = 'flex';
+      document.querySelector('.header').style.display = 'none';
+      document.querySelector('.container').style.display = 'none';
+    }
+  });
+
+  function checkPassword() {
+    const input = document.getElementById('passwordInput');
+    if (input.value === PASSWORD) {
+      sessionStorage.setItem('pneumalux_admin_login', 'true');
+      document.getElementById('loginScreen').style.display = 'none';
+      document.querySelector('.header').style.display = 'block';
+      document.querySelector('.container').style.display = 'block';
+      input.value = '';
+    } else {
+      input.style.borderColor = '#f97316';
+      input.placeholder = 'Incorrect password';
+      input.value = '';
+      setTimeout(() => {
+        input.style.borderColor = 'rgba(124,58,237,0.25)';
+        input.placeholder = 'Password';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('passwordInput').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') checkPassword();
+  });
 </script>
 
 </body>
