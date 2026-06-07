@@ -5,3 +5,4 @@
   from = "/*"
   to = "/index.html"
   status = 200
+  conditions = {NOT = [{Param = "path", Value = "/*.html"}, {Param = "path", Value = "/*.css"}, {Param = "path", Value = "/*.js"}, {Param = "path", Value = "/*.json"}, {Param = "path", Value = "/images/*"}, {Param = "path", Value = "/videos/*"}]}
